@@ -35,7 +35,6 @@ app.post('/enviar-email', upload.array('anexos', 10), (req, res) => {
   const mailOptions = {
     from: 'g.oliiveira@hotmail.com',
     to: 'contato_nonno@libero.it',
-    // to: 'g.oliiveira@hotmail.com',
     subject: 'Novo contato da página',
     text: `Nome: ${nome}\nE-mail: ${email}\nTelefone: ${telefone}\nAssunto: ${assunto}\nMensagem: ${mensagem}`
   };
