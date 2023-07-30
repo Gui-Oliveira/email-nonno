@@ -20,6 +20,19 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+const fs = require("fs");
+const dir = "anexos";
+
+if (!fs.existsSync(dir)) {
+  fs.mkdir(dir, (err) => {
+    if (err) {
+      console.log("Deu ruim...");
+      return;
+    }
+    console.log("Diretório criado! =)");
+  });
+}
+
 app.post("/enviar-email", upload.array("anexos", 10), (req, res) => {
   const { nome, email, telefone, assunto, mensagem } = req.body;
   const anexos = req.files.map((file) => ({
