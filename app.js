@@ -5,7 +5,7 @@ const PORT = 3000;
 const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
-require('dotenv').config()
+require("dotenv").config();
 
 app.use(express.json());
 app.use(cors());
@@ -27,10 +27,10 @@ const dir = "anexos";
 if (!fs.existsSync(dir)) {
   fs.mkdir(dir, (err) => {
     if (err) {
-      console.log("Deu ruim...");
+      console.log("Não foi possível criar o diretório");
       return;
     }
-    console.log("Diretório criado! =)");
+    console.log("Diretório criado!");
   });
 }
 
@@ -50,9 +50,8 @@ app.post("/enviar-email", upload.array("anexos", 10), (req, res) => {
   });
 
   const mailOptions = {
-    from: "g.oliiveira@hotmail.com",
-    to: "g.oliiveira@hotmail.com",
-    // to: "contato_nonno@libero.it",
+    from: `${process.env.NODEMAILER_USERNAMEFROM}`,
+    to: `${process.env.NODEMAILER_USERNAMETO}`,
     subject: "Novo contato da página",
     text: `Nome: ${nome}\nE-mail: ${email}\nTelefone: ${telefone}\nAssunto: ${assunto}\nMensagem: ${mensagem}`,
     attachments: anexos.map((anexo) => ({
@@ -69,6 +68,16 @@ app.post("/enviar-email", upload.array("anexos", 10), (req, res) => {
       console.log("E-mail enviado: " + info.response);
       res.status(200).send({ message: "E-mail enviado com sucesso" });
     }
+
+    anexos.forEach((anexo) => {
+      fs.unlink(anexo.path, (err) => {
+        if (err) {
+          console.log("Erro ao deletar o anexo: " + anexo.filename, err);
+        } else {
+          console.log("Anexo deletado: " + anexo.filename);
+        }
+      });
+    });
   });
 });
 
