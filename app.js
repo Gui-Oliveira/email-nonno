@@ -42,7 +42,7 @@ app.post("/enviar-email", upload.array("anexos", 10), (req, res) => {
   }));
 
   const transporter = nodemailer.createTransport({
-    service: "Gmail",
+    service: "Libero",
     auth: {
       user: `${process.env.NODEMAILER_USERNAME}`,
       pass: `${process.env.NODEMAILER_PASSWORD}`,
