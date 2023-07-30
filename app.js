@@ -5,6 +5,7 @@ const PORT = 3000;
 const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
+require('dotenv').config()
 
 app.use(express.json());
 app.use(cors());
@@ -43,8 +44,8 @@ app.post("/enviar-email", upload.array("anexos", 10), (req, res) => {
   const transporter = nodemailer.createTransport({
     service: "Outlook",
     auth: {
-      user: "g.oliiveira@hotmail.com",
-      pass: "60fcky0ur53lf",
+      user: `${process.env.NODEMAILER_USERNAME}`,
+      pass: `${process.env.NODEMAILER_PASSWORD}`,
     },
   });
 
